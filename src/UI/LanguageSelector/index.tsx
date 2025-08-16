@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "@/UI/Button";
 import PlanetIcon from "../../../public/icons/PlanetIcon";
+import ChevronDownIcon from "../../../public/icons/ChevronDownIcon";
 
 // Типы для языков
 export interface Language {
@@ -35,23 +36,6 @@ export interface LanguageSelectorProps {
   variant?: "full" | "compact";
   className?: string;
 }
-
-// Иконка стрелки вниз
-const ChevronDownIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M19 9l-7 7-7-7"
-    />
-  </svg>
-);
 
 const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   languages = defaultLanguages,
@@ -86,7 +70,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   // Компактный вариант (только флаг)
   if (variant === "compact") {
     return (
-      <div className={`relative ${className}`} ref={dropdownRef}>
+      <div className={`relative transition-all duration-200 ${className}`} ref={dropdownRef}>
         <Button
           variant="dark"
           className="!p-2 !min-w-0"
@@ -117,7 +101,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
   // Полный вариант (как на скриншоте)
   return (
-    <div className={`relative max-h-[44px] ${className}`} ref={dropdownRef}>
+    <div className={`relative max-h-[44px] transition-all duration-200 ${className}`} ref={dropdownRef}>
       <Button
         variant="outline"
         className="w-full max-h-[44px] justify-between !px-3 !py-3"
@@ -125,17 +109,17 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       >
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
-            <PlanetIcon />
-            <span className="text-white font-medium">
+            <PlanetIcon className="text-change" />
+            <span className="text-change text-left font-regular min-w-24">
               {currentLanguage.name}
             </span>
           </div>
-          <ChevronDownIcon />
+          <ChevronDownIcon className="text-change" />
         </div>
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full overflow-hidden left-0 right-0 bg-surface border border-background rounded-[16px] z-1">
+        <div className="absolute top-full overflow-hidden mt-1 left-0 right-0 bg-surface border border-background rounded-[16px] z-1">
           {languages.map((language) => (
             <button
               key={language.code}

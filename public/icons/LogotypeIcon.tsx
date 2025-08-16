@@ -1,0 +1,19 @@
+import React from 'react'
+
+const LogotypeIcon = ({ className }: { className?: string }) => {
+  return (
+    <svg className={className} width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="43" height="43" rx="15.5" fill="currentColor" stroke="#27272A"/>
+    <path d="M31 22C31 17.0294 26.9706 13 22 13C17.0294 13 13 17.0294 13 22C13 26.9706 17.0294 31 22 31V35C14.8203 35 9 29.1797 9 22C9 14.8203 14.8203 9 22 9C29.1797 9 35 14.8203 35 22C35 29.1797 29.1797 35 22 35V31C26.9706 31 31 26.9706 31 22Z" fill="url(#paint0_linear_251_163)"/>
+    <path d="M26.4645 29.2929C25.6835 28.5118 25.6835 27.2455 26.4645 26.4644C27.2456 25.6834 28.5119 25.6834 29.2929 26.4644L33.5356 30.7071C34.3166 31.4881 34.3166 32.7545 33.5356 33.5355C32.7545 34.3166 31.4882 34.3166 30.7071 33.5355L26.4645 29.2929Z" fill="#7A8CFF"/>
+    <defs>
+    <linearGradient id="paint0_linear_251_163" x1="22" y1="9" x2="22" y2="35" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#222222" stop-opacity="0.6"/>
+    <stop offset="1" stop-color="#6378FF"/>
+    </linearGradient>
+    </defs>
+    </svg>
+  )
+}
+
+export default LogotypeIcon

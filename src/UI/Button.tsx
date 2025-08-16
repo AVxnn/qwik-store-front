@@ -3,7 +3,7 @@ import React from "react";
 // Типы для кнопки
 export interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "dark" | "outline" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "dark" | "landing" | "outline" | "ghost" | "danger";
   size?: "sm" | "md" | "lg" | "xl";
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -51,6 +51,8 @@ const Button: React.FC<ButtonProps> = ({
     dark: "bg-background text-white hover:bg-background/50 shadow-sm hover:shadow-md",
     outline:
       "border-1 border-background text-white hover:bg-background/20 bg-transparent",
+    landing:
+      "border-1 border-surface text-change hover:bg-background/20 bg-transparent hover:shadow-[0_0px_8px_0px_#8077FF]",
     ghost: "text-blue-600 hover:bg-blue-50 bg-transparent",
     danger: "bg-red-600 text-white hover:bg-red-700 shadow-sm hover:shadow-md",
   };

@@ -7,6 +7,7 @@
   --color-primary: #6378ff;
   --color-white: #ffffff;
   --color-muted: #777777;
+  --color-change: #111111;
   --font-sans: var(--font-fira-sans);
   --font-mono: var(--font-fira-sans-condensed);
 }
@@ -14,10 +15,28 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-background: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-primary: #6378ff;
+  --color-white: #ffffff;
+  --color-change: #ffffff;
+  --color-muted: #6b7280;
+}
+
+:root.dark {
+  --background: #18181b;
+  --foreground: #ffffff;
+  --color-background: #18181b;
+  --color-surface: #27272a;
+  --color-primary: #6378ff;
+  --color-white: #ffffff;
+  --color-change: #111111;
+  --color-muted: #777777;
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-white);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-fira-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.20s
 }

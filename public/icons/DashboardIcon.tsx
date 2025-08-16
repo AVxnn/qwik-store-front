@@ -1,6 +1,10 @@
 import React from "react";
 
-const DashboardIcon = ({ className }: { className?: string }) => {
+interface DashboardIconProps {
+  className?: string;
+}
+
+const DashboardIcon: React.FC<DashboardIconProps> = ({ className }) => {
   return (
     <svg
       className={className}

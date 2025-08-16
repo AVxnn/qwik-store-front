@@ -63,7 +63,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
     };
   }, []);
 
-  const handleLanguageSelect = (language: Language) => {
+  const handleLanguageSelect = () => {
     setIsOpen(false);
   };
 
@@ -73,7 +73,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
       <div className={`relative transition-all duration-200 ${className}`} ref={dropdownRef}>
         <Button
           variant="dark"
-          className="!p-2 !min-w-0"
+          className="!p-2 !min-w-0 border-1 border-surface"
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="text-lg">{currentLanguage.flag}</span>
@@ -87,7 +87,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                 className={`w-full flex items-center px-3 py-2 text-sm text-white hover:bg-white/10 transition-colors ${
                   language.code === currentLanguage.code ? "bg-primary" : ""
                 }`}
-                onClick={() => handleLanguageSelect(language)}
+                onClick={() => handleLanguageSelect()}
               >
                 <span className="text-lg mr-2">{language.flag}</span>
                 <span className="truncate">{language.name}</span>
@@ -101,7 +101,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
   // Полный вариант (как на скриншоте)
   return (
-    <div className={`relative max-h-[44px] transition-all duration-200 ${className}`} ref={dropdownRef}>
+    <div className={`relative max-h-[44px] border-1 border-surface transition-all duration-200 ${className}`} ref={dropdownRef}>
       <Button
         variant="outline"
         className="w-full max-h-[44px] justify-between !px-3 !py-3"
@@ -128,7 +128,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                   ? "bg-primary !hover:bg-primary/70"
                   : ""
               }`}
-              onClick={() => handleLanguageSelect(language)}
+              onClick={() => handleLanguageSelect()}
             >
               <span className="text-lg mr-3">{language.flag}</span>
               <div className="flex flex-col items-start">

@@ -3,6 +3,9 @@ import HeroLanding from "@/components/Landing/Hero";
 import Examples from "@/components/Landing/Examples";
 import Features from "@/components/Landing/Features";
 import Pricing from "@/components/Landing/Pricing";
+import Reviews from "@/components/Landing/Reviews";
+import FAQ from "@/components/Landing/FAQ";
+import Footer from "@/components/Landing/Footer";
 
 export default function LandingPage() {
   return (
@@ -18,8 +21,17 @@ export default function LandingPage() {
         <div className="w-full max-w-[1180px] mx-auto">
           <Features />
         </div>
-        <div className="w-full max-w-[1180px] mx-auto">
+        <div className="w-full px-4 lg:px-0 max-w-[1180px] mx-auto">
           <Pricing />
+        </div>
+        <div className="w-[calc(100%-56px)] max-w-[1384px] mx-auto">
+          <Reviews />
+        </div>
+        <div className="w-[calc(100%-56px)] max-w-[1384px] mx-auto">
+          <FAQ />
+        </div>
+        <div className="w-full max-w-[1180px] mx-auto">
+         <Footer />
         </div>
       </div>
     </div>

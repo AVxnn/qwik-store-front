@@ -4,6 +4,8 @@
   --font-display: "Fira Sans", "sans-serif";
   --color-background: #18181b;
   --color-surface: #27272a;
+  --color-gradient-from: #6378ff;
+  --color-gradient-to: #ffffff;
   --color-primary: #6378ff;
   --color-white: #ffffff;
   --color-muted: #777777;
@@ -17,9 +19,11 @@
   --foreground: #171717;
   --color-background: #ffffff;
   --color-surface: #f3f4f6;
+  --color-gradient-from: #f3f4f6;
+  --color-gradient-to: #ffffff;
   --color-primary: #6378ff;
   --color-white: #ffffff;
-  --color-change: #ffffff;
+  --color-change: #222222;
   --color-muted: #6b7280;
 }
 
@@ -28,9 +32,11 @@
   --foreground: #ffffff;
   --color-background: #18181b;
   --color-surface: #27272a;
+  --color-gradient-from: #27272a;
+  --color-gradient-to: #18181b;
   --color-primary: #6378ff;
   --color-white: #ffffff;
-  --color-change: #111111;
+  --color-change: #ffffff;
   --color-muted: #777777;
 }
 

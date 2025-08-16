@@ -48,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
       "bg-primary text-white hover:bg-primary/80 shadow-sm hover:shadow-md",
     secondary:
       "bg-background text-white hover:bg-gray-700 shadow-sm hover:shadow-md",
-    dark: "bg-background text-white hover:bg-background/50 shadow-sm hover:shadow-md",
+    dark: "bg-background text-white hover:bg-background/50",
     outline:
       "border-1 border-background text-white hover:bg-background/20 bg-transparent",
     landing:

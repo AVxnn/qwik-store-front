@@ -19,7 +19,7 @@ const Features = () => {
   ]
 
   return (
-    <div className="py-24 px-4 bg-background">
+    <div className="py-24 pb-48 px-4 bg-background">
       {/* Heading */}
       <h2 className="text-foreground text-[56px] font-regular mb-8 text-center">
         Почему именно мы?

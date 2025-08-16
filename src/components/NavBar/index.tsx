@@ -15,6 +15,7 @@ import CogIcon from "../../../public/icons/CogIcon";
 import SupportIcon from "../../../public/icons/SupportIcon";
 import LogoutIcon from "../../../public/icons/LogoutIcon";
 import LanguageSelector from "@/UI/LanguageSelector";
+import LogotypeIcon from "../../../public/icons/LogotypeIcon";
 
 // Типы для навигационных элементов
 interface NavItem {
@@ -52,7 +53,7 @@ const navItems: NavItem[] = [
     id: "home",
     label: "Главная",
     icon: <DashboardIcon />,
-    path: "/",
+    path: "/dashboard",
   },
   {
     id: "shop",
@@ -143,17 +144,21 @@ const NavBar: React.FC = () => {
   return (
     <div
       className={`${
-        isCollapsed ? "w-[66px]" : "w-[220px]"
+        isCollapsed ? "min-w-[66px] w-[66px]" : "min-w-[220px] w-[220px]"
       } flex flex-col justify-between h-full bg-surface rounded-br-[16px] rounded-tr-[16px] px-3 py-6 transition-all duration-300`}
     >
+      <div
+        className="absolute w-[calc((100%-1440px)/2)] left-0 top-0 h-full bg-surface z-30"
+        aria-hidden="true"
+      />
       <div>
         <header className="flex justify-between items-center mb-6">
           {!isCollapsed && (
-            <h1 className="text-white text-[18px] font-medium">QwikStore</h1>
+            <h1 className="text-white flex items-center gap-2 text-[18px] font-regular"><LogotypeIcon className='w-[44px] h-[44px] text-white' /> QwikStore</h1>
           )}
           <Button
             variant="dark"
-            className={`!p-[11px] ${isCollapsed ? "mx-auto" : ""}`}
+            className={`!p-[12px] h-[44px] w-[44px] ${isCollapsed ? "mx-auto" : ""}`}
             onClick={handleToggleCollapse}
           >
             <HideIcon

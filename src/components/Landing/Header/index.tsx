@@ -11,8 +11,10 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 import CustomCursor from '@/UI/CustomCursor'
 import MobileMenu from '../MobileMenu'
 import BurgerButton from '../BurgerButton'
+import { useRouter } from 'next/navigation'
 
 const HeaderLanding = () => {
+  const router = useRouter();
   const { isVisible } = useScrollDirection()
   const { scrollToElement } = useSmoothScroll()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -91,13 +93,13 @@ const HeaderLanding = () => {
               <div className="hidden lg:flex items-center gap-2">
                 <ThemeToggle />
                 <LanguageSelector className="rounded-[16px] hover:shadow-[0_0px_8px_0px_#8077FF]" />
-                <Button variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
+                <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
               </div>
               
               {/* Mobile Controls */}
               <div className="lg:hidden flex items-center gap-2">
                 <ThemeToggle />
-                <Button variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
+                <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
                 <BurgerButton isOpen={isMobileMenuOpen} onClick={toggleMobileMenu} />
               </div>
             </div>

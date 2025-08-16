@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={`${firaSans.variable} ${firaSansCondensed.variable} antialiased`}
       >
-        {children}
+          {children}
       </body>
     </html>
   );

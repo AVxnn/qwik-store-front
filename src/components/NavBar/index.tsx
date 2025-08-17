@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "@/UI/Button";
 import HideIcon from "../../../public/icons/HideIcon";
 import DashboardIcon from "../../../public/icons/DashboardIcon";
@@ -16,6 +16,9 @@ import SupportIcon from "../../../public/icons/SupportIcon";
 import LogoutIcon from "../../../public/icons/LogoutIcon";
 import LanguageSelector from "@/UI/LanguageSelector";
 import LogotypeIcon from "../../../public/icons/LogotypeIcon";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import StarIcon from "../../../public/icons/StarIcon";
+import Link from "next/link";
 
 // Типы для навигационных элементов
 interface NavItem {
@@ -95,6 +98,8 @@ const navItems: NavItem[] = [
 ];
 
 const NavBar: React.FC = () => {
+  const { user, isAuthenticated, isLoading, logout } = useAuthStore();
+  const router = useRouter();
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -129,6 +134,12 @@ const NavBar: React.FC = () => {
     if (item.children) {
       toggleExpanded(item.id);
     }
+    if (item.path) {
+      router.push(item.path);
+    }
+    if (item.id === "logout") {
+      logout();
+    }
     // Здесь можно добавить навигацию, если нужно
   };
 
@@ -145,16 +156,18 @@ const NavBar: React.FC = () => {
     <div
       className={`${
         isCollapsed ? "min-w-[66px] w-[66px]" : "min-w-[220px] w-[220px]"
-      } flex flex-col justify-between h-full bg-surface rounded-br-[16px] rounded-tr-[16px] px-3 py-6 transition-all duration-300`}
+      } flex min-h-screen sticky top-0 flex-col justify-between h-full bg-surface rounded-br-[16px] rounded-tr-[16px] px-3 py-6 transition-all duration-300`}
     >
       <div
-        className="absolute w-[calc((100%-1440px)/2)] left-0 top-0 h-full bg-surface z-30"
+        className="absolute w-[calc((5000px)/2)] h-screen right-0 -z-1 top-0 bg-surface transition-colors duration-300"
         aria-hidden="true"
       />
       <div>
         <header className="flex justify-between items-center mb-6">
           {!isCollapsed && (
-            <h1 className="text-white flex items-center gap-2 text-[18px] font-regular"><LogotypeIcon className='w-[44px] h-[44px] text-white' /> QwikStore</h1>
+            <Link href="/dashboard">
+              <h1 className="text-white flex items-center gap-2 text-[18px] font-regular hover:text-primary transition-colors duration-200"><LogotypeIcon className='w-[44px] h-[44px] text-white' /> QwikStore</h1>
+            </Link>
           )}
           <Button
             variant="dark"
@@ -177,7 +190,9 @@ const NavBar: React.FC = () => {
           {navItems.map((item) => (
             <div key={item.id}>
               {/* Основной элемент навигации */}
-              <Button
+              {item.id === "shop" ? (
+                <>{user?.primaryShopId ? (
+                  <Button
                 variant={isActive(item) ? "primary" : "ghost"}
                 className={`w-full justify-start !px-3 !py-[11px] ${
                   isActive(item)
@@ -201,6 +216,46 @@ const NavBar: React.FC = () => {
               >
                 {!isCollapsed && item.label}
               </Button>
+                ) : (
+                  
+                  <Button
+                    variant="ghost"
+                    className={`w-full justify-start !px-3 !py-[11px] ${
+                isActive(item)
+                  ? "bg-primary text-white"
+                  : "text-white hover:bg-white/10"
+              } ${isCollapsed ? "justify-center !px-2 !py-[11px]" : ""}`}
+                    leftIcon={<ShopIcon />}
+                    onClick={() => router.push("/dashboard?create=true")}
+                  >
+                    Создать магазин
+                  </Button>
+                )}</>
+              ) : <Button
+              variant={isActive(item) ? "primary" : "ghost"}
+              className={`w-full justify-start !px-3 !py-[11px] ${
+                isActive(item)
+                  ? "bg-primary text-white"
+                  : "text-white hover:bg-white/10"
+              } ${isCollapsed ? "justify-center !px-2 !py-[11px]" : ""}`}
+              leftIcon={item.icon}
+              rightIcon={
+                !isCollapsed && item.children ? (
+                  <ChevronDownIcon
+                    className={
+                      isExpanded(item.id)
+                        ? "scale-y-[-1] transition-all absolute right-3"
+                        : "transition-all absolute right-3"
+                    }
+                  />
+                ) : undefined
+              }
+              onClick={() => handleItemClick(item)}
+              title={isCollapsed ? item.label : undefined}
+            >
+              {!isCollapsed && item.label}
+            </Button>}
+              
 
               {/* Выпадающий список */}
               {!isCollapsed && item.children && isExpanded(item.id) && (

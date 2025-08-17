@@ -3,11 +3,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/UI/Button';
-import CustomCursor from '@/UI/CustomCursor';
 import Input from '@/UI/Input';
 import ThemeToggle from '@/UI/ThemeToggle';
+import { useAuthStore } from '@/hooks/useAuthStore';
+import { ProfileDropdown } from '@/components/ProfileDropdown';
 
 const DashboardHeader: React.FC = () => {
+  const { user, isAuthenticated, isLoading } = useAuthStore();
   return (
     <motion.header 
       initial={{ opacity: 0, y: -20 }}
@@ -30,7 +32,7 @@ const DashboardHeader: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.3 }}
             className="text-primary"
           >
-            Romashko George
+            {user?.name}
           </motion.span>
         </h1>
       </motion.div>
@@ -138,20 +140,13 @@ const DashboardHeader: React.FC = () => {
             </Button>
         </motion.div>
 
-        {/* Profile Picture */}
+        {/* Profile Dropdown */}
         <motion.div 
           initial={{ scale: 0, rotate: 180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.7, duration: 0.4, type: "spring", stiffness: 200 }}
-          className="w-[44px] h-[44px] rounded-full bg-primary/20 border-2 border-primary/30 flex items-center justify-center overflow-hidden"
         >
-          <svg 
-            className="w-6 h-6 text-primary" 
-            fill="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-          </svg>
+          <ProfileDropdown />
         </motion.div>
       </motion.div>
     </motion.header>

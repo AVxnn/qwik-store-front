@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fira_Sans, Fira_Sans_Condensed } from "next/font/google";
 import "./globals.css";
+import { AuthInitializer } from "@/components/AuthInitializer";
 
 const firaSans = Fira_Sans({
   variable: "--font-fira-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${firaSans.variable} ${firaSansCondensed.variable} antialiased`}
       >
+        <AuthInitializer>
           {children}
+        </AuthInitializer>
       </body>
     </html>
   );

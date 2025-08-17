@@ -12,8 +12,10 @@ import CustomCursor from '@/UI/CustomCursor'
 import MobileMenu from '../MobileMenu'
 import BurgerButton from '../BurgerButton'
 import { useRouter } from 'next/navigation'
+import { useAuthStore } from '@/hooks/useAuthStore'
 
 const HeaderLanding = () => {
+  const { user, isAuthenticated, isLoading } = useAuthStore();
   const router = useRouter();
   const { isVisible } = useScrollDirection()
   const { scrollToElement } = useSmoothScroll()
@@ -93,14 +95,30 @@ const HeaderLanding = () => {
               <div className="hidden lg:flex items-center gap-2">
                 <ThemeToggle />
                 <LanguageSelector className="rounded-[16px] hover:shadow-[0_0px_8px_0px_#8077FF]" />
-                <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
-              </div>
+                {isAuthenticated ? (    
+                  <Button onClick={() => router.push("/dashboard")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">
+                    <span>Панель</span>
+                  </Button>
+                ) : isLoading ? (
+                  <Button variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Загрузка...</Button>
+                ) : (
+                  <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
+                )}              </div>
               
               {/* Mobile Controls */}
               <div className="lg:hidden flex items-center gap-2">
                 <ThemeToggle />
-                <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
+                {isAuthenticated ? (    
+                  <Button onClick={() => router.push("/dashboard")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">
+                    <span>Панель</span>
+                  </Button>
+                ) : isLoading ? (
+                  <Button variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Загрузка...</Button>
+                ) : (
+                  <Button onClick={() => router.push("/login")} variant="landing" size="lg" className="text-[18px] font-regular h-[44px]">Войти</Button>
+                )}
                 <BurgerButton isOpen={isMobileMenuOpen} onClick={toggleMobileMenu} />
+
               </div>
             </div>
         </div>

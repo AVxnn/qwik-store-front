@@ -13,10 +13,13 @@ import ArrowIcon from '../../../../../public/icons/ArrowIcon'
 import { useRouter } from 'next/navigation'
 import RegistrationSuccess from '@/components/RegistrationSuccess'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useAuthStore } from '@/hooks/useAuthStore'
+import { RedirectIfAuthenticated } from '@/components/RedirectIfAuthenticated'
 
 const RegistrationPage = () => {
   const { showSuccess, showError, showInfo } = useNotifications();
   const router = useRouter();
+  const { register, isLoading } = useAuthStore();
 
   const [formData, setFormData] = useState({
     fullname: '',
@@ -57,7 +60,7 @@ const RegistrationPage = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Валидация всех полей
@@ -71,13 +74,33 @@ const RegistrationPage = () => {
       agreeToTerms: termsError || undefined,
     });
 
-    
     // Если нет ошибок, отправляем форму
     if (!emailError && !passwordError && !termsError) {
-      console.log('Форма отправлена:', formData);
-      showSuccess('Аккаунт создан, начните создавать магазин');
-      setIsRegistrationComplete(true);
-      // Здесь будет логика отправки формы
+      try {
+        await register({
+          email: formData.email,
+          password: formData.password,
+          name: formData.fullname,
+        });
+        
+        showSuccess('Аккаунт создан, начните создавать магазин');
+        setIsRegistrationComplete(true);
+      } catch (error: unknown) {
+        console.error('Registration error:', error);
+        
+        const errorMessage = error instanceof Error ? error.message : 'Произошла ошибка при регистрации';
+        
+        // Обрабатываем различные типы ошибок
+        if (errorMessage.includes('email') || errorMessage.includes('Email')) {
+          showError('Такой Email уже используется');
+          setErrors(prev => ({ ...prev, email: 'Такой Email уже используется' }));
+        } else if (errorMessage.includes('password') || errorMessage.includes('Пароль')) {
+          showError('Пароль должен содержать минимум 6 символов');
+          setErrors(prev => ({ ...prev, password: 'Пароль должен содержать минимум 6 символов' }));
+        } else {
+          showError(errorMessage);
+        }
+      }
     } else {
       // Показываем ошибки как уведомления
       if (termsError) {
@@ -93,103 +116,104 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className='w-full h-full px-6'>
-      <main className='flex h-screen justify-center items-center'>
-        <AnimatePresence mode="wait">
-          {!isRegistrationComplete ? (
-            <motion.div
-              key="registration-form"
-              className='w-full h-fit max-w-[460px] min-h-[570px] bg-surface rounded-[24px] p-8'
-            >
-              <h1 className='text-[32px] font-regular text-center mb-3'>Создание аккаунта</h1>
-              <p className='text-[14px] font-regular text-center mb-8'>
-                Уже создан аккаунт? <CustomCursor className='inline-block ml-1'>
-                  <Link href="/login" className='text-[14px] font-regular text-primary cursor-none hover:underline'>
-                    Войти
-                  </Link>
-                </CustomCursor>
-              </p>
-              
-              <form onSubmit={handleSubmit} className='space-y-4'>
-                {/* Email Input */}
-                <Input
-                  label="Имя Фамилия"
-                  type="text"
-                  placeholder="Введите имя и фамилию"
-                  value={formData.fullname}
-                  onChange={(value) => handleInputChange('fullname', value)}
-                  error={errors.email}
-                />
-                <Input
-                  label="Электронная почта"
-                  type="email"
-                  placeholder="Введите электронную почту"
-                  value={formData.email}
-                  onChange={(value) => handleInputChange('email', value)}
-                  error={errors.email}
-                  required
-                  validation={{
-                    required: true,
-                    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    custom: validateEmail,
-                  }}
-                />
-
-                {/* Password Input */}
-                <Input
-                  label="Пароль"
-                  type="password"
-                  placeholder="Введите пароль"
-                  value={formData.password}
-                  onChange={(value) => handleInputChange('password', value)}
-                  showPasswordToggle={true}
-                  error={errors.password}
-                  required
-                  validation={{
-                    required: true,
-                    minLength: 6,
-                    custom: validatePassword,
-                  }}
-                />
-
-                {/* Terms Checkbox */}
-                <Checkbox
-                  checked={formData.agreeToTerms}
-                  onChange={(checked) => handleInputChange('agreeToTerms', checked)}
-                  error={errors.agreeToTerms}
-                >
-                  Я соглашаюсь с{' '}
-                  <CustomCursor className='inline-block ml-1'>
-                    <Link 
-                      href="/privacy-policy" 
-                      className="text-primary underline text-[14px] !cursor-none hover:text-primary/80 transition-colors"
-                      target="_blank"
-                    >
-                      политикой конфиденциальности
+      <div className='w-full h-full px-6'>
+        <main className='flex h-screen justify-center items-center'>
+          <AnimatePresence mode="wait">
+            {!isRegistrationComplete ? (
+              <motion.div
+                key="registration-form"
+                className='w-full h-fit max-w-[460px] min-h-[570px] bg-surface rounded-[24px] p-8'
+              >
+                <h1 className='text-[32px] font-regular text-center mb-3'>Создание аккаунта</h1>
+                <p className='text-[14px] font-regular text-center mb-8'>
+                  Уже создан аккаунт? <CustomCursor className='inline-block ml-1'>
+                    <Link href="/login" className='text-[14px] font-regular text-primary cursor-none hover:underline'>
+                      Войти
                     </Link>
                   </CustomCursor>
-                </Checkbox>
+                </p>
+                
+                <form onSubmit={handleSubmit} className='space-y-4'>
+                  {/* Email Input */}
+                  <Input
+                    label="Имя Фамилия"
+                    type="text"
+                    placeholder="Введите имя и фамилию"
+                    value={formData.fullname}
+                    onChange={(value) => handleInputChange('fullname', value)}
+                    error={errors.email}
+                  />
+                  <Input
+                    label="Электронная почта"
+                    type="email"
+                    placeholder="Введите электронную почту"
+                    value={formData.email}
+                    onChange={(value) => handleInputChange('email', value)}
+                    error={errors.email}
+                    required
+                    validation={{
+                      required: true,
+                      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      custom: validateEmail,
+                    }}
+                  />
 
-                {/* Submit Button */}
-                <CustomCursor>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    fullWidth
-                    className="mt-4 !cursor-none"
+                  {/* Password Input */}
+                  <Input
+                    label="Пароль"
+                    type="password"
+                    placeholder="Введите пароль"
+                    value={formData.password}
+                    onChange={(value) => handleInputChange('password', value)}
+                    showPasswordToggle={true}
+                    error={errors.password}
+                    required
+                    validation={{
+                      required: true,
+                      minLength: 6,
+                      custom: validatePassword,
+                    }}
+                  />
+
+                  {/* Terms Checkbox */}
+                  <Checkbox
+                    checked={formData.agreeToTerms}
+                    onChange={(checked) => handleInputChange('agreeToTerms', checked)}
+                    error={errors.agreeToTerms}
                   >
-                    Создать аккаунт
-                  </Button>
-                </CustomCursor>
-              </form>
-            </motion.div>
-          ) : (
-            <RegistrationSuccess />
-          )}
-        </AnimatePresence>
-      </main>
-    </div>
+                    Я соглашаюсь с{' '}
+                    <CustomCursor className='inline-block ml-1'>
+                      <Link 
+                        href="/privacy-policy" 
+                        className="text-primary underline text-[14px] !cursor-none hover:text-primary/80 transition-colors"
+                        target="_blank"
+                      >
+                        политикой конфиденциальности
+                      </Link>
+                    </CustomCursor>
+                  </Checkbox>
+
+                  {/* Submit Button */}
+                  <CustomCursor>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      size="lg"
+                      fullWidth
+                      className="mt-4 !cursor-none"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт'}
+                    </Button>
+                  </CustomCursor>
+                </form>
+              </motion.div>
+            ) : (
+              <RegistrationSuccess />
+            )}
+          </AnimatePresence>
+        </main>
+      </div>
   )
 }
 

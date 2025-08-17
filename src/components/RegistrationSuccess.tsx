@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Button from '@/UI/Button';
 import CustomCursor from '@/UI/CustomCursor';
 import { useRouter } from 'next/navigation';
+import { authStore } from '@/stores/authStore';
 
 interface RegistrationSuccessProps {
   onBack?: () => void;
@@ -14,11 +15,12 @@ const RegistrationSuccess: React.FC<RegistrationSuccessProps> = ({ onBack }) => 
   const router = useRouter();
 
   const handleDashboardClick = () => {
-    router.push('/dashboard');
+    authStore.isAuthenticated = true;
   };
 
   const handleCreateStoreClick = () => {
-    router.push('/create');
+    authStore.isAuthenticated = true;
+    router.push('/dashboard?create=true');
   };
 
   return (

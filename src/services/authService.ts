@@ -75,7 +75,7 @@ export class AuthService {
   static async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response = await apiClient.post<AuthResponse>('/auth/register', data);
-      return response.data as AuthResponse;
+      return response.data!;
     } catch (error) {
       console.error('Registration error:', error);
       throw error;

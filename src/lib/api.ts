@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 interface ApiResponse<T = unknown> {
   success: boolean;
@@ -20,18 +21,19 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
-    
+
     const defaultHeaders: Record<string, string> = {};
 
     // Добавляем Content-Type только если это не FormData
     if (!(options.body instanceof FormData)) {
-      defaultHeaders['Content-Type'] = 'application/json';
+      defaultHeaders["Content-Type"] = "application/json";
     }
 
     // Добавляем токен авторизации, если он есть
-    const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
     if (token) {
-      defaultHeaders['Authorization'] = `Bearer ${token}`;
+      defaultHeaders["Authorization"] = `Bearer ${token}`;
     }
 
     const config: RequestInit = {
@@ -47,20 +49,24 @@ class ApiClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || data.message || 'Произошла ошибка');
+        throw new Error(data.error || data.message || "Произошла ошибка");
       }
 
       return data;
     } catch (error) {
-      console.error('API Error:', error);
+      console.error("API Error:", error);
       throw error;
     }
   }
 
-  async post<T>(endpoint: string, data: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> {
+  async post<T>(
+    endpoint: string,
+    data: unknown,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
     const body = data instanceof FormData ? data : JSON.stringify(data);
     return this.request<T>(endpoint, {
-      method: 'POST',
+      method: "POST",
       body,
       ...options,
     });
@@ -68,16 +74,26 @@ class ApiClient {
 
   async get<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
-      method: 'GET',
+      method: "GET",
     });
   }
 
-  async put<T>(endpoint: string, data: unknown, options: RequestInit = {}): Promise<ApiResponse<T>> {
+  async put<T>(
+    endpoint: string,
+    data: unknown,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
     const body = data instanceof FormData ? data : JSON.stringify(data);
     return this.request<T>(endpoint, {
-      method: 'PUT',
+      method: "PUT",
       body,
       ...options,
+    });
+  }
+
+  async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: "DELETE",
     });
   }
 }

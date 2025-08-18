@@ -17,7 +17,6 @@ import LogoutIcon from "../../../public/icons/LogoutIcon";
 import LanguageSelector from "@/UI/LanguageSelector";
 import LogotypeIcon from "../../../public/icons/LogotypeIcon";
 import { useAuthStore } from "@/hooks/useAuthStore";
-import StarIcon from "../../../public/icons/StarIcon";
 import Link from "next/link";
 
 // Типы для навигационных элементов
@@ -98,7 +97,7 @@ const navItems: NavItem[] = [
 ];
 
 const NavBar: React.FC = () => {
-  const { user, isAuthenticated, isLoading, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);

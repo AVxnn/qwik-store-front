@@ -9,7 +9,7 @@ import { useAuthStore } from '@/hooks/useAuthStore';
 import { ProfileDropdown } from '@/components/ProfileDropdown';
 
 const DashboardHeader: React.FC = () => {
-  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const { user } = useAuthStore();
   return (
     <motion.header 
       initial={{ opacity: 0, y: -20 }}

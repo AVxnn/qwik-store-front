@@ -7,11 +7,7 @@ import CustomCursor from '@/UI/CustomCursor';
 import { useRouter } from 'next/navigation';
 import { authStore } from '@/stores/authStore';
 
-interface RegistrationSuccessProps {
-  onBack?: () => void;
-}
-
-const RegistrationSuccess: React.FC<RegistrationSuccessProps> = ({ onBack }) => {
+const RegistrationSuccess: React.FC = () => {
   const router = useRouter();
 
   const handleDashboardClick = () => {

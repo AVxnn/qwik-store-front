@@ -1,7 +1,5 @@
 "use client"
 
-import LanguageSelector from '@/UI/LanguageSelector'
-import ThemeToggle from '@/UI/ThemeToggle'
 import React, { useState } from 'react'
 import Button from '@/UI/Button'
 import Input from '@/UI/Input'
@@ -9,16 +7,12 @@ import Checkbox from '@/UI/Checkbox'
 import Link from 'next/link'
 import useNotifications from '@/hooks/useNotifications'
 import CustomCursor from '@/UI/CustomCursor'
-import ArrowIcon from '../../../../../public/icons/ArrowIcon'
-import { useRouter } from 'next/navigation'
 import RegistrationSuccess from '@/components/RegistrationSuccess'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useAuthStore } from '@/hooks/useAuthStore'
-import { RedirectIfAuthenticated } from '@/components/RedirectIfAuthenticated'
 
 const RegistrationPage = () => {
   const { showSuccess, showError, showInfo } = useNotifications();
-  const router = useRouter();
   const { register, isLoading } = useAuthStore();
 
   const [formData, setFormData] = useState({

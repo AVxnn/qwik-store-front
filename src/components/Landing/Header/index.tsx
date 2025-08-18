@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/hooks/useAuthStore'
 
 const HeaderLanding = () => {
-  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isLoading } = useAuthStore();
   const router = useRouter();
   const { isVisible } = useScrollDirection()
   const { scrollToElement } = useSmoothScroll()

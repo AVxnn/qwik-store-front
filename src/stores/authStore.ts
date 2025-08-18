@@ -29,6 +29,7 @@ export const authActions = {
       
       const response = await AuthService.register(data);
       
+      // @ts-expect-error - token is needed from response
       localStorage.setItem('authToken', response?.token as string);
       
       const user = await AuthService.getCurrentUser();
@@ -159,6 +160,7 @@ export const authActions = {
       const response = await AuthService.uploadAvatar(authStore?.user?.id as string, file);
       
       if (authStore.user) {
+        // @ts-expect-error - user is needed from response
         authStore.user = { ...authStore.user, avatarUrl: response?.user?.avatarUrl };
       }
       

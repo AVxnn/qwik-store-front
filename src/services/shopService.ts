@@ -1,4 +1,4 @@
-import { apiClient } from '@/lib/api';
+import { apiClient } from "@/lib/api";
 
 // Типы для магазина
 export interface ShopOwner {
@@ -38,9 +38,8 @@ export interface CreateShopData {
 
 export interface UploadImageResponse {
   success: boolean;
-  data: {
-    imageUrl: string;
-  };
+  imageUrl: string;
+
   message: string;
   error: string;
 }
@@ -59,13 +58,16 @@ export class ShopService {
   static async uploadImage(file: File): Promise<string> {
     try {
       const formData = new FormData();
-      formData.append('shopImage', file);
-      
-      const response = await apiClient.post<UploadImageResponse>('/upload/shop', formData);
-        console.log("imageUrl", response)
-      return response.data.url;
+      formData.append("shopImage", file);
+
+      const response = await apiClient.post<UploadImageResponse>(
+        "/upload/shop",
+        formData
+      );
+      console.log("imageUrl", response);
+      return response?.data?.imageUrl || "";
     } catch (error) {
-      console.error('Upload image error:', error);
+      console.error("Upload image error:", error);
       throw error;
     }
   }
@@ -73,21 +75,23 @@ export class ShopService {
   // Создание нового магазина
   static async createShop(shopData: CreateShopData): Promise<Shop> {
     try {
-      const response = await apiClient.post<CreateShopResponse>('/shops', shopData);
+      const response = await apiClient.post<CreateShopResponse>(
+        "/shops",
+        shopData
+      );
       return response.data!.data.shop;
     } catch (error) {
-      console.error('Create shop error:', error);
+      console.error("Create shop error:", error);
       throw error;
     }
   }
-
   // Получение всех магазинов пользователя
   static async getUserShops(): Promise<Shop[]> {
     try {
-      const response = await apiClient.get<{ data: Shop[] }>('/shops');
-      return response.data!;
+      const response = await apiClient.get<Shop[]>("/shops");
+      return response.data || [];
     } catch (error) {
-      console.error('Get user shops error:', error);
+      console.error("Get user shops error:", error);
       throw error;
     }
   }
@@ -98,18 +102,24 @@ export class ShopService {
       const response = await apiClient.get<{ data: Shop }>(`/shops/${shopId}`);
       return response.data!.data;
     } catch (error) {
-      console.error('Get shop error:', error);
+      console.error("Get shop error:", error);
       throw error;
     }
   }
 
   // Обновление магазина
-  static async updateShop(shopId: string, shopData: Partial<CreateShopData>): Promise<Shop> {
+  static async updateShop(
+    shopId: string,
+    shopData: Partial<CreateShopData>
+  ): Promise<Shop> {
     try {
-      const response = await apiClient.put<{ data: Shop }>(`/shops/${shopId}`, shopData);
+      const response = await apiClient.put<{ data: Shop }>(
+        `/shops/${shopId}`,
+        shopData
+      );
       return response.data!.data;
     } catch (error) {
-      console.error('Update shop error:', error);
+      console.error("Update shop error:", error);
       throw error;
     }
   }
@@ -119,7 +129,7 @@ export class ShopService {
     try {
       await apiClient.delete(`/shops/${shopId}`);
     } catch (error) {
-      console.error('Delete shop error:', error);
+      console.error("Delete shop error:", error);
       throw error;
     }
   }

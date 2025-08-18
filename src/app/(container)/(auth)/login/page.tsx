@@ -7,13 +7,11 @@ import Link from 'next/link'
 import { useNotifications } from '@/hooks/useNotifications'
 import CustomCursor from '@/UI/CustomCursor'
 import { useAuthStore } from '@/hooks/useAuthStore'
-import { useRouter } from 'next/navigation'
 import { RedirectIfAuthenticated } from '@/components/RedirectIfAuthenticated'
 
 const LoginPage = () => {
-  const { showSuccess, showError, showInfo } = useNotifications();
+  const { showSuccess, showError } = useNotifications();
   const { login, isLoading } = useAuthStore();
-  const router = useRouter();
   
   const [formData, setFormData] = useState({
     email: '',

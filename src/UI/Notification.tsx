@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import BellIcon from '../../public/icons/BellIcon';
 import CheckIcon from '../../public/icons/CheckIcon';
 import CloseIcon from '../../public/icons/CloseIcon';

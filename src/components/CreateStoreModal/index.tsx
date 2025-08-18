@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import Modal from '@/UI/Modal';
 import ImageUpload from '@/UI/ImageUpload';
 import Input from '@/UI/Input';

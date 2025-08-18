@@ -11,8 +11,8 @@ const DashboardPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { shops, currentShop, loadUserShops, isLoading } = useShopStore();
-  const { user, updateProfile, uploadAvatar } = useAuthStore();
+  const { loadUserShops, isLoading } = useShopStore();
+  const { user } = useAuthStore();
 
   // Загружаем магазины при монтировании
   useEffect(() => {
@@ -21,7 +21,7 @@ const DashboardPage = () => {
 
   // Проверяем параметр create в URL
   useEffect(() => {
-    const createParam = searchParams.get('create');
+    const createParam = searchParams?.get('create');
     if (createParam === 'true') {
       setIsCreateModalOpen(true);
     }
